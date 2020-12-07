@@ -3,7 +3,7 @@ import requests
 
 from contextlib import closing
 
-from .models import MunicipalityStaffContacts
+from .models import MunicipalStaffContacts
 
 
 def update_municipal_staff_contacts(obj):
@@ -26,13 +26,13 @@ def update_municipal_staff_contacts(obj):
         # Process all the rows in the file
         for row in reader:
             if reader.line_num > 1:
-                query = MunicipalityStaffContacts.objects.filter(
+                query = MunicipalStaffContacts.objects.filter(
                     demarcation_code__exact=row['demarcation_code'],
                     role__exact=row['role'],
                 )
                 record = query.first()
                 if record is None:
-                    record = MunicipalityStaffContacts(
+                    record = MunicipalStaffContacts(
                         demarcation_code=row['demarcation_code'],
                         role=row['role'],
                         title=row['title'],

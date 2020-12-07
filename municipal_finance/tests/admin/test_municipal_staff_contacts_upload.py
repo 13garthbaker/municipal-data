@@ -3,11 +3,11 @@ from django.contrib.auth.models import User
 from django.contrib.admin.sites import AdminSite
 from django_q.models import OrmQ
 
-from ...admin import MunicipalityStaffContactsUploadAdmin
-from ...models import MunicipalityStaffContactsUpload
+from ...admin import MunicipalStaffContactsUpdateAdmin
+from ...models import MunicipalStaffContactsUpdate
 
 
-class MunicipalityStaffContactsUploadTestCase(TransactionTestCase):
+class MunicipalStaffContactsUpdateTestCase(TransactionTestCase):
     serialized_rollback = True
 
     def setUp(self):
@@ -17,8 +17,8 @@ class MunicipalityStaffContactsUploadTestCase(TransactionTestCase):
             email='super@email.org',
             password='pass',
         )
-        self.model_admin = MunicipalityStaffContactsUploadAdmin(
-            model=MunicipalityStaffContactsUpload,
+        self.model_admin = MunicipalStaffContactsUpdateAdmin(
+            model=MunicipalStaffContactsUpdate,
             admin_site=AdminSite(),
         )
 
@@ -27,7 +27,7 @@ class MunicipalityStaffContactsUploadTestCase(TransactionTestCase):
             '/admin/municipal_finance/municipalityprofilesrebuild/add/'
         )
         request.user = self.user
-        obj = MunicipalityStaffContactsUpload()
+        obj = MunicipalStaffContactsUpdate()
         self.model_admin.save_model(
             obj=obj,
             request=request,

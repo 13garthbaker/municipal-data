@@ -5,7 +5,7 @@ from django_q.tasks import async_task
 from constance import config
 
 from .models import (
-    MunicipalityStaffContactsUpload,
+    MunicipalStaffContactsUpdate,
     MunicipalityProfilesCompilation,
 )
 from .settings import API_URL
@@ -62,8 +62,8 @@ class MunicipalityProfilesCompilationAdmin(admin.ModelAdmin):
         )
 
 
-@admin.register(MunicipalityStaffContactsUpload)
-class MunicipalityStaffContactsUploadAdmin(admin.ModelAdmin):
+@admin.register(MunicipalStaffContactsUpdate)
+class MunicipalStaffContactsUpdateAdmin(admin.ModelAdmin):
     list_display = ('datetime',)
     readonly_fields = ('user',)
 
@@ -71,13 +71,13 @@ class MunicipalityStaffContactsUploadAdmin(admin.ModelAdmin):
         if obj is None:
             return ('user',)
         else:
-            return super(MunicipalityStaffContactsUploadAdmin, self).get_exclude(request, obj)
+            return super(MunicipalStaffContactsUpdateAdmin, self).get_exclude(request, obj)
 
     def save_model(self, request, obj, form, change):
         # Set the user to the current user
         obj.user = request.user
         # Process default save behavior
-        super(MunicipalityStaffContactsUploadAdmin,
+        super(MunicipalStaffContactsUpdateAdmin,
               self).save_model(request, obj, form, change)
         # Queue task
         async_task(
