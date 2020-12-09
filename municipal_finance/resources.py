@@ -22,6 +22,8 @@ from .models import (
     AgedDebtorItemsV2,
     AgedCreditorItemsV1,
     AgedCreditorItemsV2,
+    IncexpFactsV1,
+    IncexpFactsV2,
 )
 
 
@@ -149,3 +151,25 @@ class AgedCreditorItemsV2Resource(resources.ModelResource):
     class Meta:
         model = AgedCreditorItemsV2
         import_id_fields = ['code']
+
+
+class IncexpFactsV1Resource(resources.ModelResource):
+    class Meta:
+        model = IncexpFactsV1
+        import_id_fields = [
+            'demarcation_code',
+            'period_code',
+            'item_code',
+            'function_code',
+        ]
+
+
+class IncexpFactsV2Resource(resources.ModelResource):
+    class Meta:
+        model = IncexpFactsV2
+        import_id_fields = [
+            'demarcation_code',
+            'period_code',
+            'item',
+            'function',
+        ]

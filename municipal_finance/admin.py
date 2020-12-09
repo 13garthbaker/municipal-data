@@ -7,6 +7,7 @@ from constance import config
 from .models import (
     MunicipalStaffContactsUpdate,
     MunicipalityProfilesCompilation,
+    IncomeExpenditureV2Update,
 )
 from .settings import API_URL
 
@@ -77,11 +78,42 @@ class MunicipalStaffContactsUpdateAdmin(admin.ModelAdmin):
         # Set the user to the current user
         obj.user = request.user
         # Process default save behavior
-        super(MunicipalStaffContactsUpdateAdmin,
-              self).save_model(request, obj, form, change)
+        super(MunicipalStaffContactsUpdateAdmin, self).save_model(
+            request, obj, form, change
+        )
         # Queue task
         async_task(
             'municipal_finance.update.update_municipal_staff_contacts',
             obj,
-            task_name='Municipal staff contacts upload',
+            task_name='Municipal staff contacts update',
+        )
+
+
+class BaseUpdateAdmin(admin.ModelAdmin):
+    list_display = ('user', 'datetime', 'deleted', 'inserted',)
+    readonly_fields = ('user', 'deleted', 'inserted',)
+
+    def get_exclude(self, request, obj=None):
+        if obj is None:
+            return ('user',)
+        else:
+            return super(BaseUpdateAdmin, self).get_exclude(request, obj)
+
+
+@admin.register(IncomeExpenditureV2Update)
+class IncomeExpenditureV2UpdateAdmin(BaseUpdateAdmin):
+
+    def save_model(self, request, obj, form, change):
+        # Set the user to the current user
+        obj.user = request.user
+        # Process default save behavior
+        super(IncomeExpenditureV2UpdateAdmin, self).save_model(
+            request, obj, form, change
+        )
+        # Queue task
+        async_task(
+            'municipal_finance.update.update_income_expenditure_v2',
+            obj,
+            task_name='Income & Expenditure v2 update',
+            batch_size=10000,
         )

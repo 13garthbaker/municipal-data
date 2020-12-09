@@ -71,9 +71,7 @@ from .aged_creditor import (
 from .municipal_staff_contacts import (
     MunicipalStaffContacts,
 )
-from .updates import (
-    MunicipalStaffContactsUpdate,
-)
+from .updates import *
 
 
 class AuditOpinionFacts(models.Model):

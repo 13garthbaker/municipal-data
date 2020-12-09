@@ -1,9 +1,12 @@
+
 import csv
 import requests
 
 from contextlib import closing
 
-from .models import MunicipalStaffContacts
+from ..models import (
+    MunicipalStaffContacts,
+)
 
 
 def update_municipal_staff_contacts(obj):

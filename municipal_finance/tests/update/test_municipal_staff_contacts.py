@@ -2,8 +2,14 @@ from django.test import TransactionTestCase
 from django.contrib.auth.models import User
 from django.core.files import File
 
-from ..models import MunicipalStaffContactsUpdate, MunicipalStaffContacts
-from ..update import update_municipal_staff_contacts
+from ...models import MunicipalStaffContactsUpdate, MunicipalStaffContacts
+from ...update import (
+    update_municipal_staff_contacts,
+)
+
+
+FIXTURE_PATH = ("municipal_finance/fixtures/tests/update/"
+                "municipal_staff_contacts")
 
 
 class UpdateMunicipalContactsTestCase(TransactionTestCase):
@@ -15,21 +21,11 @@ class UpdateMunicipalContactsTestCase(TransactionTestCase):
         )
         self.initial_upload = MunicipalStaffContactsUpdate.objects.create(
             user=self.user,
-            file=File(
-                open(
-                    'municipal_finance/fixtures/municipal_contacts/initial.csv',
-                    'rb',
-                ),
-            ),
+            file=File(open(f"{FIXTURE_PATH}/initial.csv", "rb")),
         )
         self.update_upload = MunicipalStaffContactsUpdate.objects.create(
             user=self.user,
-            file=File(
-                open(
-                    'municipal_finance/fixtures/municipal_contacts/update.csv',
-                    'rb',
-                ),
-            ),
+            file=File(open(f"{FIXTURE_PATH}/update.csv", "rb")),
         )
 
     def test_initial_and_update(self):

@@ -11,6 +11,10 @@ from municipal_finance.models import (
     CapitalFactsV2,
     UifwexpFacts,
 )
+from municipal_finance.resources import (
+    IncexpFactsV1Resource,
+    IncexpFactsV2Resource,
+)
 
 from ...models import Geography
 
@@ -19,28 +23,6 @@ class GeographyResource(resources.ModelResource):
     class Meta:
         model = Geography
         import_id_fields = ['geo_code']
-
-
-class IncexpFactsV1Resource(resources.ModelResource):
-    class Meta:
-        model = IncexpFactsV1
-        import_id_fields = [
-            'demarcation_code',
-            'period_code',
-            'item_code',
-            'function_code',
-        ]
-
-
-class IncexpFactsV2Resource(resources.ModelResource):
-    class Meta:
-        model = IncexpFactsV2
-        import_id_fields = [
-            'demarcation_code',
-            'period_code',
-            'item',
-            'function',
-        ]
 
 
 class BsheetFactsV1Resource(resources.ModelResource):
