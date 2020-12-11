@@ -14,6 +14,8 @@ from municipal_finance.models import (
 from municipal_finance.resources import (
     IncexpFactsV1Resource,
     IncexpFactsV2Resource,
+    CashFlowFactsV1Resource,
+    CashFlowFactsV2Resource,
 )
 
 from ...models import Geography
@@ -75,24 +77,4 @@ class UIFWExpenditureFactsResource(resources.ModelResource):
             'demarcation_code',
             'financial_year',
             'item_code',
-        ]
-
-
-class CashflowFactsV1Resource(resources.ModelResource):
-    class Meta:
-        model = CflowFactsV1
-        import_id_fields = [
-            'demarcation_code',
-            'period_code',
-            'item_code',
-        ]
-
-
-class CashflowFactsV2Resource(resources.ModelResource):
-    class Meta:
-        model = CflowFactsV2
-        import_id_fields = [
-            'demarcation_code',
-            'period_code',
-            'item',
         ]

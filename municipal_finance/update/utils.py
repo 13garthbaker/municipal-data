@@ -2,6 +2,7 @@ import re
 
 from itertools import groupby, zip_longest
 from functools import reduce
+from contextlib import closing
 
 from django.db.models import Q
 
@@ -64,3 +65,20 @@ def build_unique_query_params(keys):
         Q(),
     )
     return query_params
+
+
+def delete_existing(update_obj, facts_cls, reader_cls, batch_size):
+    """ Delete the existing matching records """
+    deleted = 0
+    update_obj.file.open('r')
+    with closing(update_obj.file) as file:
+        lines = iter(file)
+        next(lines)  # Skip header
+        reader = reader_cls(lines)
+        for rows in group_rows(reader, batch_size):
+            unique_keys = unique_records(rows)
+            count, _ = facts_cls.objects.filter(
+                build_unique_query_params(unique_keys)
+            ).delete()
+            deleted += count
+    return deleted

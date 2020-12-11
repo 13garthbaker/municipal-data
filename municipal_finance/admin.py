@@ -8,6 +8,7 @@ from .models import (
     MunicipalStaffContactsUpdate,
     MunicipalityProfilesCompilation,
     IncomeExpenditureV2Update,
+    CashFlowV2Update,
 )
 from .settings import API_URL
 
@@ -115,5 +116,24 @@ class IncomeExpenditureV2UpdateAdmin(BaseUpdateAdmin):
             'municipal_finance.update.update_income_expenditure_v2',
             obj,
             task_name='Income & Expenditure v2 update',
+            batch_size=10000,
+        )
+
+
+@admin.register(CashFlowV2Update)
+class CashFlowV2UpdateAdmin(BaseUpdateAdmin):
+
+    def save_model(self, request, obj, form, change):
+        # Set the user to the current user
+        obj.user = request.user
+        # Process default save behavior
+        super(CashFlowV2UpdateAdmin, self).save_model(
+            request, obj, form, change
+        )
+        # Queue task
+        async_task(
+            'municipal_finance.update.update_cash_flow_v2',
+            obj,
+            task_name='Cash flow v2 update',
             batch_size=10000,
         )

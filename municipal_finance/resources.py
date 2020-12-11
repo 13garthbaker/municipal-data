@@ -5,10 +5,14 @@ from .models import (
     AmountTypeV2,
     CflowItemsV1,
     CflowItemsV2,
+    CflowFactsV1,
+    CflowFactsV2,
     GovernmentFunctionsV1,
     GovernmentFunctionsV2,
     IncexpItemsV1,
     IncexpItemsV2,
+    IncexpFactsV1,
+    IncexpFactsV2,
     BsheetItemsV1,
     BsheetItemsV2,
     CapitalTypeV2,
@@ -22,8 +26,6 @@ from .models import (
     AgedDebtorItemsV2,
     AgedCreditorItemsV1,
     AgedCreditorItemsV2,
-    IncexpFactsV1,
-    IncexpFactsV2,
 )
 
 
@@ -172,4 +174,24 @@ class IncexpFactsV2Resource(resources.ModelResource):
             'period_code',
             'item',
             'function',
+        ]
+
+
+class CashFlowFactsV1Resource(resources.ModelResource):
+    class Meta:
+        model = CflowFactsV1
+        import_id_fields = [
+            'demarcation_code',
+            'period_code',
+            'item_code',
+        ]
+
+
+class CashFlowFactsV2Resource(resources.ModelResource):
+    class Meta:
+        model = CflowFactsV2
+        import_id_fields = [
+            'demarcation_code',
+            'period_code',
+            'item',
         ]
