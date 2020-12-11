@@ -22,6 +22,7 @@ from .models import (
     GrantTypesV2,
     RepairsMaintenanceItemsV1,
     RepairsMaintenanceItemsV2,
+    RepairsMaintenanceFactsV2,
     AgedDebtorItemsV1,
     AgedDebtorItemsV2,
     AgedCreditorItemsV1,
@@ -190,6 +191,16 @@ class CashFlowFactsV1Resource(resources.ModelResource):
 class CashFlowFactsV2Resource(resources.ModelResource):
     class Meta:
         model = CflowFactsV2
+        import_id_fields = [
+            'demarcation_code',
+            'period_code',
+            'item',
+        ]
+
+
+class RepairsMaintenanceFactsV2Resource(resources.ModelResource):
+    class Meta:
+        model = RepairsMaintenanceFactsV2
         import_id_fields = [
             'demarcation_code',
             'period_code',

@@ -43,3 +43,13 @@ class CashFlowV2Update(BaseUpdate):
 
     class Meta:
         db_table = 'cash_flow_v2_update'
+
+
+class RepairsMaintenanceV2Update(BaseUpdate):
+    file = models.FileField(
+        upload_to='updates/repairs_maintenance_v2/',
+        max_length=255,
+    )
+
+    class Meta:
+        db_table = 'repairs_maintenance_v2_update'

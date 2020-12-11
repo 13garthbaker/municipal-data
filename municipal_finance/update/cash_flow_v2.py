@@ -59,9 +59,9 @@ def row_to_obj(amount_types, items, row: CashFlowRow):
         financial_year=financial_year,
         financial_period=financial_period,
         period_length=period_length,
+        amount=amount,
         amount_type=amount_type,
         item=item,
-        amount=amount,
     )
 
 
