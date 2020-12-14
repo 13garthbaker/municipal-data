@@ -6,11 +6,12 @@ from ...update import (
     update_income_expenditure_v2,
 )
 from ...utils import import_data
-from ...resources import IncexpFactsV2Resource
 from ...models import (
     IncexpFactsV2,
     IncomeExpenditureV2Update,
 )
+
+from ..resources import IncexpFactsV2Resource
 
 
 FIXTURES_PATH = "municipal_finance/fixtures/tests/update/income_expenditure_v2"

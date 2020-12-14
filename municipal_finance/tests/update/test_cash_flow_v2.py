@@ -6,11 +6,12 @@ from ...update import (
     update_cash_flow_v2,
 )
 from ...utils import import_data
-from ...resources import CashFlowFactsV2Resource
 from ...models import (
     CflowFactsV2,
     CashFlowV2Update,
 )
+
+from ..resources import CashFlowFactsV2Resource
 
 
 FIXTURES_PATH = "municipal_finance/fixtures/tests/update/cash_flow_v2"

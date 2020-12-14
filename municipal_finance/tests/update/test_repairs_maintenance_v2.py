@@ -6,11 +6,12 @@ from ...update import (
     update_repairs_maintenance_v2,
 )
 from ...utils import import_data
-from ...resources import RepairsMaintenanceFactsV2Resource
 from ...models import (
     RepairsMaintenanceFactsV2,
     RepairsMaintenanceV2Update,
 )
+
+from ..resources import RepairsMaintenanceFactsV2Resource
 
 
 FIXTURES_PATH = ("municipal_finance/fixtures/tests/update/"

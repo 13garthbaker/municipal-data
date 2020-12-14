@@ -5,14 +5,10 @@ from .models import (
     AmountTypeV2,
     CflowItemsV1,
     CflowItemsV2,
-    CflowFactsV1,
-    CflowFactsV2,
     GovernmentFunctionsV1,
     GovernmentFunctionsV2,
     IncexpItemsV1,
     IncexpItemsV2,
-    IncexpFactsV1,
-    IncexpFactsV2,
     BsheetItemsV1,
     BsheetItemsV2,
     CapitalTypeV2,
@@ -22,7 +18,6 @@ from .models import (
     GrantTypesV2,
     RepairsMaintenanceItemsV1,
     RepairsMaintenanceItemsV2,
-    RepairsMaintenanceFactsV2,
     AgedDebtorItemsV1,
     AgedDebtorItemsV2,
     AgedCreditorItemsV1,
@@ -154,55 +149,3 @@ class AgedCreditorItemsV2Resource(resources.ModelResource):
     class Meta:
         model = AgedCreditorItemsV2
         import_id_fields = ['code']
-
-
-class IncexpFactsV1Resource(resources.ModelResource):
-    class Meta:
-        model = IncexpFactsV1
-        import_id_fields = [
-            'demarcation_code',
-            'period_code',
-            'item_code',
-            'function_code',
-        ]
-
-
-class IncexpFactsV2Resource(resources.ModelResource):
-    class Meta:
-        model = IncexpFactsV2
-        import_id_fields = [
-            'demarcation_code',
-            'period_code',
-            'item',
-            'function',
-        ]
-
-
-class CashFlowFactsV1Resource(resources.ModelResource):
-    class Meta:
-        model = CflowFactsV1
-        import_id_fields = [
-            'demarcation_code',
-            'period_code',
-            'item_code',
-        ]
-
-
-class CashFlowFactsV2Resource(resources.ModelResource):
-    class Meta:
-        model = CflowFactsV2
-        import_id_fields = [
-            'demarcation_code',
-            'period_code',
-            'item',
-        ]
-
-
-class RepairsMaintenanceFactsV2Resource(resources.ModelResource):
-    class Meta:
-        model = RepairsMaintenanceFactsV2
-        import_id_fields = [
-            'demarcation_code',
-            'period_code',
-            'item',
-        ]
