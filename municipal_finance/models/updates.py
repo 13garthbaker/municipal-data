@@ -62,3 +62,23 @@ class RepairsMaintenanceV2Update(BaseUpdate):
 
     class Meta:
         db_table = 'repairs_maintenance_v2_update'
+
+
+class AgedDebtorsV2Update(BaseUpdate):
+    file = models.FileField(
+        upload_to='updates/aged_debtors_v2/',
+        max_length=255,
+    )
+
+    class Meta:
+        db_table = 'aged_debtors_v2_update'
+
+
+class AgedCreditorsV2Update(BaseUpdate):
+    file = models.FileField(
+        upload_to='updates/aged_creditors_v2/',
+        max_length=255,
+    )
+
+    class Meta:
+        db_table = 'aged_creditors_v2_update'

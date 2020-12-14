@@ -10,6 +10,8 @@ from .models import (
     IncomeExpenditureV2Update,
     CashFlowV2Update,
     RepairsMaintenanceV2Update,
+    AgedDebtorsV2Update,
+    AgedCreditorsV2Update,
 )
 from .settings import API_URL
 
@@ -95,6 +97,8 @@ class MunicipalStaffContactsUpdateAdmin(admin.ModelAdmin):
 class BaseUpdateAdmin(admin.ModelAdmin):
     list_display = ('user', 'datetime', 'deleted', 'inserted',)
     readonly_fields = ('user', 'deleted', 'inserted',)
+    task_function = None
+    task_name = None
 
     def get_exclude(self, request, obj=None):
         if obj is None:
@@ -102,62 +106,48 @@ class BaseUpdateAdmin(admin.ModelAdmin):
         else:
             return super(BaseUpdateAdmin, self).get_exclude(request, obj)
 
-
-@admin.register(IncomeExpenditureV2Update)
-class IncomeExpenditureV2UpdateAdmin(BaseUpdateAdmin):
-
     def save_model(self, request, obj, form, change):
         # Set the user to the current user
         obj.user = request.user
         # Process default save behavior
-        super(IncomeExpenditureV2UpdateAdmin, self).save_model(
+        super(BaseUpdateAdmin, self).save_model(
             request, obj, form, change
         )
         # Queue task
         if not change:
             async_task(
-                'municipal_finance.update.update_income_expenditure_v2',
+                self.task_function,
                 obj,
-                task_name='Income & Expenditure v2 update',
+                task_name=self.task_name,
                 batch_size=10000,
             )
+
+
+@admin.register(IncomeExpenditureV2Update)
+class IncomeExpenditureV2UpdateAdmin(BaseUpdateAdmin):
+    task_function = 'municipal_finance.update.update_income_expenditure_v2'
+    task_name = 'Income & Expenditure v2 update'
 
 
 @admin.register(CashFlowV2Update)
 class CashFlowV2UpdateAdmin(BaseUpdateAdmin):
-
-    def save_model(self, request, obj, form, change):
-        # Set the user to the current user
-        obj.user = request.user
-        # Process default save behavior
-        super(CashFlowV2UpdateAdmin, self).save_model(
-            request, obj, form, change
-        )
-        # Queue task
-        if not change:
-            async_task(
-                'municipal_finance.update.update_cash_flow_v2',
-                obj,
-                task_name='Cash flow v2 update',
-                batch_size=10000,
-            )
+    task_function = 'municipal_finance.update.update_cash_flow_v2'
+    task_name = 'Cash flow v2 update'
 
 
 @admin.register(RepairsMaintenanceV2Update)
 class RepairsMaintenanceV2UpdateAdmin(BaseUpdateAdmin):
+    task_function = 'municipal_finance.update.update_repairs_maintenance_v2'
+    task_name = 'Repairs & Maintenance v2 update'
 
-    def save_model(self, request, obj, form, change):
-        # Set the user to the current user
-        obj.user = request.user
-        # Process default save behavior
-        super(RepairsMaintenanceV2UpdateAdmin, self).save_model(
-            request, obj, form, change
-        )
-        # Queue task
-        if not change:
-            async_task(
-                'municipal_finance.update.update_repairs_maintenance_v2',
-                obj,
-                task_name='Repairs & Maintenance v2 update',
-                batch_size=10000,
-            )
+
+@admin.register(AgedDebtorsV2Update)
+class AgedDebtorsV2UpdateAdmin(BaseUpdateAdmin):
+    task_function = 'municipal_finance.update.update_aged_debtors_v2'
+    task_name = 'Aged Debtors v2 update'
+
+
+@admin.register(AgedCreditorsV2Update)
+class AgedCreditorsV2UpdateAdmin(BaseUpdateAdmin):
+    task_function = 'municipal_finance.update.update_aged_creditors_v2'
+    task_name = 'Aged Creditors v2 update'
