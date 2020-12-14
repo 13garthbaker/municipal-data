@@ -84,11 +84,12 @@ class MunicipalStaffContactsUpdateAdmin(admin.ModelAdmin):
             request, obj, form, change
         )
         # Queue task
-        async_task(
-            'municipal_finance.update.update_municipal_staff_contacts',
-            obj,
-            task_name='Municipal staff contacts update',
-        )
+        if not change:
+            async_task(
+                'municipal_finance.update.update_municipal_staff_contacts',
+                obj,
+                task_name='Municipal staff contacts update',
+            )
 
 
 class BaseUpdateAdmin(admin.ModelAdmin):
@@ -113,12 +114,13 @@ class IncomeExpenditureV2UpdateAdmin(BaseUpdateAdmin):
             request, obj, form, change
         )
         # Queue task
-        async_task(
-            'municipal_finance.update.update_income_expenditure_v2',
-            obj,
-            task_name='Income & Expenditure v2 update',
-            batch_size=10000,
-        )
+        if not change:
+            async_task(
+                'municipal_finance.update.update_income_expenditure_v2',
+                obj,
+                task_name='Income & Expenditure v2 update',
+                batch_size=10000,
+            )
 
 
 @admin.register(CashFlowV2Update)
@@ -132,12 +134,13 @@ class CashFlowV2UpdateAdmin(BaseUpdateAdmin):
             request, obj, form, change
         )
         # Queue task
-        async_task(
-            'municipal_finance.update.update_cash_flow_v2',
-            obj,
-            task_name='Cash flow v2 update',
-            batch_size=10000,
-        )
+        if not change:
+            async_task(
+                'municipal_finance.update.update_cash_flow_v2',
+                obj,
+                task_name='Cash flow v2 update',
+                batch_size=10000,
+            )
 
 
 @admin.register(RepairsMaintenanceV2Update)
@@ -151,9 +154,10 @@ class RepairsMaintenanceV2UpdateAdmin(BaseUpdateAdmin):
             request, obj, form, change
         )
         # Queue task
-        async_task(
-            'municipal_finance.update.update_repairs_maintenance_v2',
-            obj,
-            task_name='Repairs & Maintenance v2 update',
-            batch_size=10000,
-        )
+        if not change:
+            async_task(
+                'municipal_finance.update.update_repairs_maintenance_v2',
+                obj,
+                task_name='Repairs & Maintenance v2 update',
+                batch_size=10000,
+            )
