@@ -66,9 +66,13 @@ def get_manager():
             port,
             config['NAME'],
         )
+        # Setup connection arguments
+        connect_args = {
+            "options": "-c statement_timeout=30000"
+        }
         # Create the cube manager
         _cube_manager = PreloadingJSONCubeManager(
-            create_engine(url),
+            create_engine(url, connect_args=connect_args),
             models_directory,
         )
     return _cube_manager
